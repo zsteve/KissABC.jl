@@ -8,9 +8,10 @@ a `Distribution` type that can be used to combine multiple `UnivariateDistributi
 Example: it can be used as `prior = Factored(Normal(0,1), Uniform(-1,1))`
 """
 struct Factored{N} <: Distribution{Multivariate,MixedSupport}
-    p::NTuple{N,UnivariateDistribution}
-    Factored(args::UnivariateDistribution...) = new{length(args)}(args)
+    p::NTuple{N,Union{UnivariateDistribution, MultivariateDistribution}}
+    Factored(args::Union{UnivariateDistribution, MultivariateDistribution}...) = new{length(args)}(args)
 end
+
 """
     pdf(d::Factored, x) = begin
 Function to evaluate the pdf of a `Factored` distribution object
